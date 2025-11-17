@@ -50,35 +50,147 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       team2: "Brighton",
       image: "placeholder",
       status: "live"
-    }
-  ];
-
-  const upcomingMarkets: Market[] = [
+    },
     {
       id: "5",
       team1: "Aston Villa",
       team2: "West Ham",
       image: "placeholder",
-      status: "upcoming"
+      status: "live"
     },
     {
       id: "6",
       team1: "Everton",
       team2: "Fulham",
       image: "placeholder",
-      status: "upcoming"
+      status: "live"
     },
     {
       id: "7",
       team1: "Wolves",
       team2: "Brentford",
       image: "placeholder",
-      status: "upcoming"
+      status: "live"
     },
     {
       id: "8",
       team1: "Crystal Palace",
       team2: "Bournemouth",
+      image: "placeholder",
+      status: "live"
+    },
+    {
+      id: "9",
+      team1: "Nottingham Forest",
+      team2: "Luton Town",
+      image: "placeholder",
+      status: "live"
+    },
+    {
+      id: "10",
+      team1: "Sheffield United",
+      team2: "Burnley",
+      image: "placeholder",
+      status: "live"
+    },
+    {
+      id: "11",
+      team1: "Real Madrid",
+      team2: "Atletico Madrid",
+      image: "placeholder",
+      status: "live"
+    },
+    {
+      id: "12",
+      team1: "Barcelona",
+      team2: "Sevilla",
+      image: "placeholder",
+      status: "live"
+    }
+  ];
+
+  const upcomingMarkets: Market[] = [
+    {
+      id: "13",
+      team1: "Bayern Munich",
+      team2: "Borussia Dortmund",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "14",
+      team1: "PSG",
+      team2: "Marseille",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "15",
+      team1: "Inter Milan",
+      team2: "AC Milan",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "16",
+      team1: "Juventus",
+      team2: "Napoli",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "17",
+      team1: "Ajax",
+      team2: "Feyenoord",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "18",
+      team1: "Benfica",
+      team2: "Porto",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "19",
+      team1: "Celtic",
+      team2: "Rangers",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "20",
+      team1: "Lyon",
+      team2: "Monaco",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "21",
+      team1: "Galatasaray",
+      team2: "Fenerbahce",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "22",
+      team1: "Sporting CP",
+      team2: "Braga",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "23",
+      team1: "Lazio",
+      team2: "Roma",
+      image: "placeholder",
+      status: "upcoming"
+    },
+    {
+      id: "24",
+      team1: "Atletico Madrid",
+      team2: "Real Sociedad",
       image: "placeholder",
       status: "upcoming"
     }
@@ -86,7 +198,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
 
   const resolvedMarkets: Market[] = [
     {
-      id: "9",
+      id: "25",
       team1: "Real Madrid",
       team2: "Barcelona",
       image: "placeholder",
@@ -94,11 +206,13 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       epochResults: [
         { epoch: 1, goalTeam: "Real Madrid", cards: "No cards" },
         { epoch: 2, goalTeam: "Barcelona", cards: "Yes cards" },
-        { epoch: 3, goalTeam: "Real Madrid", cards: "No cards" }
+        { epoch: 3, goalTeam: "Real Madrid", cards: "No cards" },
+        { epoch: 5, goalTeam: "Barcelona", cards: "Yes cards" },
+        { epoch: 6, goalTeam: "Real Madrid", cards: "No cards" }
       ]
     },
     {
-      id: "10",
+      id: "26",
       team1: "Bayern Munich",
       team2: "Dortmund",
       image: "placeholder",
@@ -106,11 +220,13 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       epochResults: [
         { epoch: 1, goalTeam: "Bayern Munich", cards: "Yes cards" },
         { epoch: 2, goalTeam: "Dortmund", cards: "No cards" },
-        { epoch: 3, goalTeam: "Bayern Munich", cards: "Yes cards" }
+        { epoch: 3, goalTeam: "Bayern Munich", cards: "Yes cards" },
+        { epoch: 5, goalTeam: "Dortmund", cards: "No cards" },
+        { epoch: 6, goalTeam: "Bayern Munich", cards: "Yes cards" }
       ]
     },
     {
-      id: "11",
+      id: "27",
       team1: "PSG",
       team2: "Marseille",
       image: "placeholder",
@@ -118,11 +234,13 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       epochResults: [
         { epoch: 1, goalTeam: "PSG", cards: "No cards" },
         { epoch: 2, goalTeam: "PSG", cards: "Yes cards" },
-        { epoch: 3, goalTeam: "Marseille", cards: "No cards" }
+        { epoch: 3, goalTeam: "Marseille", cards: "No cards" },
+        { epoch: 5, goalTeam: "PSG", cards: "Yes cards" },
+        { epoch: 6, goalTeam: "Marseille", cards: "No cards" }
       ]
     },
     {
-      id: "12",
+      id: "28",
       team1: "Inter Milan",
       team2: "AC Milan",
       image: "placeholder",
@@ -130,7 +248,65 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       epochResults: [
         { epoch: 1, goalTeam: "Inter Milan", cards: "Yes cards" },
         { epoch: 2, goalTeam: "Inter Milan", cards: "No cards" },
-        { epoch: 3, goalTeam: "AC Milan", cards: "Yes cards" }
+        { epoch: 3, goalTeam: "AC Milan", cards: "Yes cards" },
+        { epoch: 5, goalTeam: "Inter Milan", cards: "No cards" },
+        { epoch: 6, goalTeam: "AC Milan", cards: "Yes cards" }
+      ]
+    },
+    {
+      id: "29",
+      team1: "Liverpool",
+      team2: "Manchester City",
+      image: "placeholder",
+      status: "resolved",
+      epochResults: [
+        { epoch: 1, goalTeam: "Liverpool", cards: "No cards" },
+        { epoch: 2, goalTeam: "Manchester City", cards: "Yes cards" },
+        { epoch: 3, goalTeam: "Liverpool", cards: "No cards" },
+        { epoch: 5, goalTeam: "Manchester City", cards: "No cards" },
+        { epoch: 6, goalTeam: "Liverpool", cards: "Yes cards" }
+      ]
+    },
+    {
+      id: "30",
+      team1: "Juventus",
+      team2: "Napoli",
+      image: "placeholder",
+      status: "resolved",
+      epochResults: [
+        { epoch: 1, goalTeam: "Juventus", cards: "Yes cards" },
+        { epoch: 2, goalTeam: "Napoli", cards: "No cards" },
+        { epoch: 3, goalTeam: "Juventus", cards: "Yes cards" },
+        { epoch: 5, goalTeam: "Napoli", cards: "Yes cards" },
+        { epoch: 6, goalTeam: "Juventus", cards: "No cards" }
+      ]
+    },
+    {
+      id: "31",
+      team1: "Arsenal",
+      team2: "Chelsea",
+      image: "placeholder",
+      status: "resolved",
+      epochResults: [
+        { epoch: 1, goalTeam: "Arsenal", cards: "No cards" },
+        { epoch: 2, goalTeam: "Chelsea", cards: "Yes cards" },
+        { epoch: 3, goalTeam: "Arsenal", cards: "No cards" },
+        { epoch: 5, goalTeam: "Arsenal", cards: "Yes cards" },
+        { epoch: 6, goalTeam: "Chelsea", cards: "No cards" }
+      ]
+    },
+    {
+      id: "32",
+      team1: "Atletico Madrid",
+      team2: "Valencia",
+      image: "placeholder",
+      status: "resolved",
+      epochResults: [
+        { epoch: 1, goalTeam: "Atletico Madrid", cards: "Yes cards" },
+        { epoch: 2, goalTeam: "Valencia", cards: "No cards" },
+        { epoch: 3, goalTeam: "Atletico Madrid", cards: "Yes cards" },
+        { epoch: 5, goalTeam: "Valencia", cards: "No cards" },
+        { epoch: 6, goalTeam: "Atletico Madrid", cards: "Yes cards" }
       ]
     }
   ];
@@ -150,7 +326,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
 
   const markets = getCurrentMarkets();
 
-  const volumes = ["$250.88k", "$182.45k", "$310.22k", "$195.67k", "$275.33k", "$220.19k", "$298.54k", "$165.78k"];
+  const volumes = ["$250.88k", "$182.45k", "$310.22k", "$195.67k", "$275.33k", "$220.19k", "$298.54k", "$165.78k", "$342.90k", "$208.15k", "$267.82k", "$189.43k"];
 
   return (
     <div className="min-h-screen bg-[#0d0d0d]">
@@ -218,7 +394,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
         )}
 
         {/* Market Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className={`grid gap-6 ${activeTab === "resolved" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}`}>
           {markets.map((market, index) => (
             <div
               key={market.id}
@@ -236,34 +412,40 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
               </div>
 
               {market.status === "resolved" && market.epochResults ? (
-                <div className="mb-4 space-y-2">
-                  <div className="bg-[#0d0d0d] rounded p-3 space-y-1">
-                    {market.epochResults.map((result) => (
-                      <div key={result.epoch} className="text-xs text-gray-300 border-b border-gray-800 last:border-b-0 pb-1 last:pb-0">
+                <div className="bg-[#0d0d0d] rounded p-3 space-y-2">
+                  {market.epochResults.map((result) => (
+                    <div key={result.epoch} className="flex items-center justify-between gap-3 pb-2 border-b border-gray-800 last:border-b-0 last:pb-0">
+                      <div className="text-xs text-gray-300 flex-1">
                         <span className="text-gray-500">Epoch {result.epoch}:</span> {result.goalTeam}, {result.cards}
                       </div>
-                    ))}
-                  </div>
+                      <Button
+                        size="sm"
+                        className="bg-[#3D6734] hover:bg-[#2d4f27] h-6 px-2 text-xs"
+                      >
+                        Claim
+                      </Button>
+                    </div>
+                  ))}
                 </div>
               ) : (
-                <div className="mb-4">
-                  <PredictionChart compact volume={volumes[index % volumes.length]} />
-                </div>
-              )}
+                <>
+                  <div className="mb-4">
+                    <PredictionChart compact volume={volumes[index % volumes.length]} />
+                  </div>
 
-              <Button
-                onClick={() => market.status === "live" && onMarketClick(market)}
-                className={`w-full ${
-                  market.status === "upcoming"
-                    ? "bg-gray-700 hover:bg-gray-600 cursor-default"
-                    : market.status === "resolved"
-                    ? "bg-[#3D6734] hover:bg-[#2d4f27]"
-                    : "bg-[#3D6734] hover:bg-[#2d4f27]"
-                }`}
-                disabled={market.status === "upcoming"}
-              >
-                {market.status === "upcoming" ? "UPCOMING" : market.status === "resolved" ? "CLAIM WINNINGS" : "PREDICT NOW"}
-              </Button>
+                  <Button
+                    onClick={() => market.status === "live" && onMarketClick(market)}
+                    className={`w-full ${
+                      market.status === "upcoming"
+                        ? "bg-gray-700 hover:bg-gray-600 cursor-default"
+                        : "bg-[#3D6734] hover:bg-[#2d4f27]"
+                    }`}
+                    disabled={market.status === "upcoming"}
+                  >
+                    {market.status === "upcoming" ? "UPCOMING" : "PREDICT NOW"}
+                  </Button>
+                </>
+              )}
             </div>
           ))}
         </div>
