@@ -35,20 +35,31 @@ export function MarketDetailPage({
   const currentEpoch = 2;
 
   const getEpochStatus = (epoch: number) => {
-    if (epoch >= 0 && epoch <= 3) return "Open";
+    if (epoch >= 1 && epoch <= 3) return "Open";
     if (epoch === 4) return "Paused";
     if (epoch >= 5 && epoch <= 6) return "Open";
     return "Closed";
   };
 
+  const getEpochTimeRange = (epoch: number) => {
+    const ranges: { [key: number]: string } = {
+      1: "0-15 mins",
+      2: "15-30 mins",
+      3: "30-45 mins",
+      4: "Halftime",
+      5: "45-60 mins",
+      6: "60-70 mins"
+    };
+    return ranges[epoch] || "";
+  };
+
   const epochs = [
-    { number: 0, status: getEpochStatus(0) },
-    { number: 1, status: getEpochStatus(1) },
-    { number: 2, status: getEpochStatus(2) },
-    { number: 3, status: getEpochStatus(3) },
-    { number: 4, status: getEpochStatus(4) },
-    { number: 5, status: getEpochStatus(5) },
-    { number: 6, status: getEpochStatus(6) },
+    { number: 1, status: getEpochStatus(1), timeRange: getEpochTimeRange(1) },
+    { number: 2, status: getEpochStatus(2), timeRange: getEpochTimeRange(2) },
+    { number: 3, status: getEpochStatus(3), timeRange: getEpochTimeRange(3) },
+    { number: 4, status: getEpochStatus(4), timeRange: getEpochTimeRange(4) },
+    { number: 5, status: getEpochStatus(5), timeRange: getEpochTimeRange(5) },
+    { number: 6, status: getEpochStatus(6), timeRange: getEpochTimeRange(6) },
   ];
 
   return (
@@ -113,7 +124,7 @@ export function MarketDetailPage({
               {/* Chart */}
               <div className="mb-6">
                 <h3 className="text-sm text-gray-400 mb-4">
-                  Price Movement
+                  Pool Volume
                 </h3>
                 <PredictionChart volume="$285.42k" />
               </div>
@@ -134,24 +145,24 @@ export function MarketDetailPage({
                           epoch.number === currentEpoch
                             ? "bg-[#3D6734] text-white"
                             : epoch.status === "Paused"
-                              ? "bg-orange-100 text-orange-600"
+                              ? "bg-orange-500 text-white"
                               : epoch.status === "Open"
-                                ? "bg-green-100 text-green-600"
-                                : "bg-gray-100 text-gray-400"
+                                ? "bg-[#3D6734]/30 text-gray-300"
+                                : "bg-gray-700 text-gray-400"
                         }`}
                       >
                         {epoch.number}
                       </div>
                       <span className="text-xs text-gray-500">
-                        {epoch.status}
+                        {epoch.timeRange}
                       </span>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 text-xs text-gray-400 bg-[#0d0d0d] p-3 rounded">
-                  <p>• Epochs 0-3: Trading Open</p>
-                  <p>• Epoch 4: Trading Paused</p>
-                  <p>• Epochs 5-6: Trading Open</p>
+                <div className="mt-4 text-xs text-gray-400 bg-[#0d0d0d] p-3 rounded space-y-1">
+                  <p>• Epochs 1-3: 0-45 mins (Trading Open)</p>
+                  <p>• Epoch 4: Halftime Break (Trading Paused)</p>
+                  <p>• Epochs 5-6: 45-70 mins (Trading Open)</p>
                 </div>
               </div>
             </Card>
@@ -204,10 +215,10 @@ export function MarketDetailPage({
                   <Button
                     variant="outline"
                     onClick={() => setSelectedGoalTeam("teamA")}
-                    className={`w-full h-20 border-gray-700 hover:bg-gray-800 ${
+                    className={`w-full h-20 border-2 ${
                       selectedGoalTeam === "teamA"
-                        ? "border-[#3D6734] bg-[#3D6734]/10 text-[#3D6734]"
-                        : "text-gray-300"
+                        ? "border-[#3D6734] bg-[#0d0d0d] text-white"
+                        : "border-gray-700 bg-[#0d0d0d] text-gray-300 hover:bg-[#1a1a1a]"
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1">
@@ -218,10 +229,10 @@ export function MarketDetailPage({
                   <Button
                     variant="outline"
                     onClick={() => setSelectedGoalTeam("teamB")}
-                    className={`w-full h-20 border-gray-700 hover:bg-gray-800 ${
+                    className={`w-full h-20 border-2 ${
                       selectedGoalTeam === "teamB"
-                        ? "border-[#3D6734] bg-[#3D6734]/10 text-[#3D6734]"
-                        : "text-gray-300"
+                        ? "border-[#3D6734] bg-[#0d0d0d] text-white"
+                        : "border-gray-700 bg-[#0d0d0d] text-gray-300 hover:bg-[#1a1a1a]"
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1">
@@ -265,10 +276,10 @@ export function MarketDetailPage({
                     onClick={() =>
                       setSelectedCardsOption("yes")
                     }
-                    className={`w-full h-20 border-gray-700 hover:bg-gray-800 ${
+                    className={`w-full h-20 border-2 ${
                       selectedCardsOption === "yes"
-                        ? "border-[#3D6734] bg-[#3D6734]/10 text-[#3D6734]"
-                        : "text-gray-300"
+                        ? "border-[#3D6734] bg-[#0d0d0d] text-white"
+                        : "border-gray-700 bg-[#0d0d0d] text-gray-300 hover:bg-[#1a1a1a]"
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1">
@@ -279,10 +290,10 @@ export function MarketDetailPage({
                   <Button
                     variant="outline"
                     onClick={() => setSelectedCardsOption("no")}
-                    className={`w-full h-20 border-gray-700 hover:bg-gray-800 ${
+                    className={`w-full h-20 border-2 ${
                       selectedCardsOption === "no"
-                        ? "border-[#3D6734] bg-[#3D6734]/10 text-[#3D6734]"
-                        : "text-gray-300"
+                        ? "border-[#3D6734] bg-[#0d0d0d] text-white"
+                        : "border-gray-700 bg-[#0d0d0d] text-gray-300 hover:bg-[#1a1a1a]"
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1">
@@ -315,6 +326,22 @@ export function MarketDetailPage({
                   )}
                 </div>
               )}
+            </Card>
+
+            {/* Market Terms */}
+            <Card className="p-6 bg-[#1a1a1a] shadow-sm border border-gray-800">
+              <h3 className="text-white mb-4">Market Terms</h3>
+              <div className="text-sm text-gray-400 space-y-2">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+                <p>
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <p>
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </p>
+              </div>
             </Card>
           </div>
         </div>

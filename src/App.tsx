@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HomePage } from "./components/HomePage";
 import { MarketDetailPage } from "./components/MarketDetailPage";
 import { CreateMarketPage } from "./components/CreateMarketPage";
+import { CreateCustomMarketPage } from "./components/CreateCustomMarketPage";
 
 interface Market {
   id: string;
@@ -10,7 +11,7 @@ interface Market {
   image: string;
 }
 
-type Page = "home" | "marketDetail" | "createMarket";
+type Page = "home" | "marketDetail" | "createMarket" | "createCustomMarket";
 
 export default function App() {
   const [selectedMarket, setSelectedMarket] = useState<Market | null>(null);
@@ -25,9 +26,17 @@ export default function App() {
     setCurrentPage("createMarket");
   };
 
+  const handleCreateCustomMarket = () => {
+    setCurrentPage("createCustomMarket");
+  };
+
   const handleBack = () => {
     setCurrentPage("home");
     setSelectedMarket(null);
+  };
+
+  const handleBackToCreateMarket = () => {
+    setCurrentPage("createMarket");
   };
 
   return (
@@ -47,7 +56,12 @@ export default function App() {
       {currentPage === "createMarket" && (
         <CreateMarketPage 
           onBack={handleBack}
-          onCreateCustomMarket={() => {/* TODO: Implement custom market creation */}}
+          onCreateCustomMarket={handleCreateCustomMarket}
+        />
+      )}
+      {currentPage === "createCustomMarket" && (
+        <CreateCustomMarketPage 
+          onBack={handleBackToCreateMarket}
         />
       )}
     </div>

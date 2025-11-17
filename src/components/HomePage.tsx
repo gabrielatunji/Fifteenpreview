@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { PredictionChart } from "./PredictionChart";
 import { useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import logo from "figma:asset/b6a5dde33854917905718e88631df160c25281e0.png";
 
 interface Market {
   id: string;
@@ -333,7 +334,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       {/* Header */}
       <header className="bg-[#1a1a1a] border-b border-gray-800 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="bg-[#3D6734] text-white px-3 py-1 rounded">15</div>
+          <img src={logo} alt="Logo" className="h-8" />
           
           <div className="flex-1 max-w-md mx-8">
             <div className="relative">
@@ -345,9 +346,14 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
             </div>
           </div>
 
-          <Button className="bg-[#3D6734] hover:bg-[#2d4f27]">
-            Connect Wallet
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button onClick={onCreateMarket} className="bg-[#3D6734] hover:bg-[#2d4f27]">
+              CREATE MARKET
+            </Button>
+            <Button className="bg-[#3D6734] hover:bg-[#2d4f27]">
+              CONNECT WALLET
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -374,10 +380,6 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
               Resolved
             </Button>
           </div>
-
-          <Button onClick={onCreateMarket} className="bg-[#3D6734] hover:bg-[#2d4f27]">
-            CREATE MARKET
-          </Button>
         </div>
 
         {/* Resolved Page Search Bar */}
@@ -420,9 +422,9 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
                       </div>
                       <Button
                         size="sm"
-                        className="bg-[#3D6734] hover:bg-[#2d4f27] h-6 px-2 text-xs"
+                        className="bg-[#3D6734] hover:bg-[#2d4f27] h-7 px-3 text-xs"
                       >
-                        Claim
+                        Claim Winnings
                       </Button>
                     </div>
                   ))}
@@ -430,7 +432,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
               ) : (
                 <>
                   <div className="mb-4">
-                    <PredictionChart compact volume={volumes[index % volumes.length]} />
+                    <PredictionChart compact volume={market.status === "upcoming" ? "$0" : volumes[index % volumes.length]} />
                   </div>
 
                   <Button
