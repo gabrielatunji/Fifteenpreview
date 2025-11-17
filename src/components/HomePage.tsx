@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import logo from "figma:asset/b6a5dde33854917905718e88631df160c25281e0.png";
 
+
 interface Market {
   id: string;
   team1: string;
@@ -28,84 +29,84 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "1",
       team1: "Arsenal",
       team2: "Manchester United",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "2",
       team1: "Liverpool",
       team2: "Chelsea",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "3",
       team1: "Manchester City",
       team2: "Tottenham",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "4",
       team1: "Newcastle",
       team2: "Brighton",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "5",
       team1: "Aston Villa",
       team2: "West Ham",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "6",
       team1: "Everton",
       team2: "Fulham",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "7",
       team1: "Wolves",
       team2: "Brentford",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "8",
       team1: "Crystal Palace",
       team2: "Bournemouth",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "9",
       team1: "Nottingham Forest",
       team2: "Luton Town",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "10",
       team1: "Sheffield United",
       team2: "Burnley",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "11",
       team1: "Real Madrid",
       team2: "Atletico Madrid",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     },
     {
       id: "12",
       team1: "Barcelona",
       team2: "Sevilla",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "live"
     }
   ];
@@ -115,84 +116,84 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "13",
       team1: "Bayern Munich",
       team2: "Borussia Dortmund",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "14",
       team1: "PSG",
       team2: "Marseille",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "15",
       team1: "Inter Milan",
       team2: "AC Milan",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "16",
       team1: "Juventus",
       team2: "Napoli",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "17",
       team1: "Ajax",
       team2: "Feyenoord",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "18",
       team1: "Benfica",
       team2: "Porto",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "19",
       team1: "Celtic",
       team2: "Rangers",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "20",
       team1: "Lyon",
       team2: "Monaco",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "21",
       team1: "Galatasaray",
       team2: "Fenerbahce",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "22",
       team1: "Sporting CP",
       team2: "Braga",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "23",
       team1: "Lazio",
       team2: "Roma",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     },
     {
       id: "24",
       team1: "Atletico Madrid",
       team2: "Real Sociedad",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "upcoming"
     }
   ];
@@ -202,7 +203,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "25",
       team1: "Real Madrid",
       team2: "Barcelona",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Real Madrid", cards: "No cards" },
@@ -216,7 +217,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "26",
       team1: "Bayern Munich",
       team2: "Dortmund",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Bayern Munich", cards: "Yes cards" },
@@ -230,7 +231,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "27",
       team1: "PSG",
       team2: "Marseille",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "PSG", cards: "No cards" },
@@ -244,7 +245,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "28",
       team1: "Inter Milan",
       team2: "AC Milan",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Inter Milan", cards: "Yes cards" },
@@ -258,7 +259,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "29",
       team1: "Liverpool",
       team2: "Manchester City",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Liverpool", cards: "No cards" },
@@ -272,7 +273,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "30",
       team1: "Juventus",
       team2: "Napoli",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Juventus", cards: "Yes cards" },
@@ -286,7 +287,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "31",
       team1: "Arsenal",
       team2: "Chelsea",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Arsenal", cards: "No cards" },
@@ -300,7 +301,7 @@ export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
       id: "32",
       team1: "Atletico Madrid",
       team2: "Valencia",
-      image: "placeholder",
+      image: "./src/assets/football.png",
       status: "resolved",
       epochResults: [
         { epoch: 1, goalTeam: "Atletico Madrid", cards: "Yes cards" },
