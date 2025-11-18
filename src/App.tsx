@@ -3,12 +3,15 @@ import { HomePage } from "./components/HomePage";
 import { MarketDetailPage } from "./components/MarketDetailPage";
 import { CreateMarketPage } from "./components/CreateMarketPage";
 import { CreateCustomMarketPage } from "./components/CreateCustomMarketPage";
+import { Header } from "./components/Header";
+import { ToastProvider } from "./components/ui/toast";
 
 interface Market {
   id: string;
   team1: string;
   team2: string;
   image: string;
+  matchStartTime?: number;
 }
 
 type Page = "home" | "marketDetail" | "createMarket" | "createCustomMarket";
@@ -39,31 +42,40 @@ export default function App() {
     setCurrentPage("createMarket");
   };
 
+  const handleMarketCreated = (market: Market) => {
+    setSelectedMarket(market);
+    setCurrentPage("marketDetail");
+  };
   return (
-    <div className="size-full">
-      {currentPage === "home" && (
-        <HomePage 
-          onMarketClick={handleMarketClick} 
-          onCreateMarket={handleCreateMarket}
-        />
-      )}
-      {currentPage === "marketDetail" && selectedMarket && (
-        <MarketDetailPage
-          market={selectedMarket}
-          onBack={handleBack}
-        />
-      )}
-      {currentPage === "createMarket" && (
-        <CreateMarketPage 
-          onBack={handleBack}
-          onCreateCustomMarket={handleCreateCustomMarket}
-        />
-      )}
-      {currentPage === "createCustomMarket" && (
-        <CreateCustomMarketPage 
-          onBack={handleBackToCreateMarket}
-        />
-      )}
-    </div>
+    <ToastProvider>
+      <div className="size-full">
+        <Header onCreateMarket={handleCreateMarket} />
+        {currentPage === "home" && (
+          <HomePage 
+            onMarketClick={handleMarketClick} 
+            onCreateMarket={handleCreateMarket}
+          />
+        )}
+        {currentPage === "marketDetail" && selectedMarket && (
+          <MarketDetailPage
+            market={selectedMarket}
+            onBack={handleBack}
+          />
+        )}
+        {currentPage === "createMarket" && (
+          <CreateMarketPage 
+            onBack={handleBack}
+            onCreateCustomMarket={handleCreateCustomMarket}
+            onMarketCreated={handleMarketCreated}
+          />
+        )}
+        {currentPage === "createCustomMarket" && (
+          <CreateCustomMarketPage 
+            onBack={handleBackToCreateMarket}
+            onMarketCreated={handleMarketCreated}
+          />
+        )}
+      </div>
+    </ToastProvider>
   );
 }

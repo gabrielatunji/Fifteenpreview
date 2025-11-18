@@ -1,7 +1,9 @@
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Search } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useToast } from "./ui/toast";
+import { useMarketOperations } from "../hooks/useMarketOperations";
+import football from "../assets/football.png";
 
 interface UpcomingMatch {
   id: string;
@@ -13,11 +15,90 @@ interface UpcomingMatch {
 }
 
 interface CreateMarketPageProps {
-  onBack: () => void;
   onCreateCustomMarket: () => void;
+  onBack: () => void;
+  onMarketCreated?: (market: { id: string; team1: string; team2: string; image: string }) => void;
 }
 
-export function CreateMarketPage({ onBack, onCreateCustomMarket }: CreateMarketPageProps) {
+function parseMatchDateTimeToUnix(dateStr: string, timeStr: string) {
+  // dateStr example: "Nov 20, 2025"  timeStr example: "15:00"
+  try {
+    const combined = `${dateStr} ${timeStr}`; // e.g. "Nov 20, 2025 15:00"
+    const d = new Date(combined);
+    if (isNaN(d.getTime())) return null;
+    return Math.floor(d.getTime() / 1000);
+  } catch (e) {
+    return null;
+  }
+}
+
+function CreateMatchButton({ match, onMarketCreated }: { match: UpcomingMatch; onMarketCreated?: (market: { id: string; team1: string; team2: string; image: string; matchStartTime?: number }) => void }) {
+  const { toast, dismiss } = useToast();
+  const { createMarket, creating, isConnected, waitForMarketAddress } = useMarketOperations();
+
+  const handleCreate = async () => {
+    if (!isConnected) {
+      toast({ type: 'error', description: 'Please connect your wallet before creating a market' });
+      return;
+    }
+
+    const matchStartTime = parseMatchDateTimeToUnix(match.date, match.time);
+    if (!matchStartTime) {
+      toast({ type: 'error', description: 'Invalid match date/time' });
+      return;
+    }
+
+    const matchDetails = `${match.team1} vs ${match.team2}`.trim();
+
+    try {
+      const txHash = await createMarket(matchDetails, matchStartTime, match.team1, match.team2);
+      const creatingToastId = toast({ type: 'info', title: 'Creating market', description: 'Transaction submitted', txHash, duration: 0 });
+
+      // wait for factory MarketCreated event
+      const { newMarketAddress, blockNumber } = await waitForMarketAddress(txHash as `0x${string}`);
+
+      try { dismiss(creatingToastId); } catch (e) { /* ignore */ }
+
+      if (newMarketAddress) {
+        toast({ type: 'success', title: 'Market created', description: `Market: ${newMarketAddress}`, txHash });
+        // persist to backend
+        try {
+          fetch('http://localhost:4000/api/markets', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: newMarketAddress,
+              address: newMarketAddress,
+              team1: match.team1,
+              team2: match.team2,
+              image: football,
+              matchStartTime,
+              fromBlock: blockNumber,
+            }),
+          }).catch((e) => console.debug('persist market failed', e));
+        } catch (e) {
+          console.debug('persist market failed', e);
+        }
+        if (onMarketCreated) {
+          onMarketCreated({ id: newMarketAddress, team1: match.team1, team2: match.team2, image: football, matchStartTime });
+        }
+      } else {
+        toast({ type: 'success', title: 'Submitted', description: 'Market creation submitted (awaiting confirmation)', txHash });
+      }
+    } catch (err) {
+      console.error(err);
+      toast({ type: 'error', description: 'Failed to create market. See console for details.' });
+    }
+  };
+
+  return (
+    <Button onClick={handleCreate} disabled={creating} className="bg-[#3D6734] hover:bg-[#2d4f27]">
+      {creating ? 'Creating…' : 'CREATE MARKET'}
+    </Button>
+  );
+}
+
+export function CreateMarketPage({ onCreateCustomMarket, onBack, onMarketCreated }: CreateMarketPageProps) {
   const upcomingMatches: UpcomingMatch[] = [
     {
       id: "1",
@@ -86,38 +167,24 @@ export function CreateMarketPage({ onBack, onCreateCustomMarket }: CreateMarketP
   ];
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d]">
-      {/* Header */}
-      <header className="bg-[#1a1a1a] border-b border-gray-800 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Button
-              variant="ghost"
-              onClick={onBack}
-              className="text-gray-300 hover:text-white hover:bg-gray-800"
-            >
-              ← Back
-            </Button>
-            <h1 className="text-white">Create Market</h1>
-          </div>
-
+    <div className="min-h-screen bg-[#0d0d0d] pt-16">
+      {/* Search Bar + Create Button (top row) */}
+      <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-4 w-full md:w-auto">
           <Button
-            onClick={onCreateCustomMarket}
-            className="bg-[#3D6734] hover:bg-[#2d4f27]"
+            variant="ghost"
+            onClick={onBack}
+            className="text-gray-300 hover:text-white hover:bg-gray-800"
           >
-            Create Custom Market
+            <ChevronLeft className="size-4 mr-2" />
+            Back to Markets
           </Button>
         </div>
-      </header>
 
-      {/* Search Bar */}
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 size-4" />
-          <Input
-            placeholder="Search upcoming matches..."
-            className="pl-10 bg-[#1a1a1a] border-gray-700 text-white placeholder:text-gray-500"
-          />
+        <div className="ml-4">
+          <Button onClick={onCreateCustomMarket} className="bg-[#3D6734] hover:bg-[#2d4f27]">
+            Create Custom Market
+          </Button>
         </div>
       </div>
 
@@ -159,9 +226,7 @@ export function CreateMarketPage({ onBack, onCreateCustomMarket }: CreateMarketP
                   </div>
                 </div>
 
-                <Button className="bg-[#3D6734] hover:bg-[#2d4f27]">
-                  CREATE MARKET
-                </Button>
+                <CreateMatchButton match={match} onMarketCreated={onMarketCreated} />
               </div>
             </div>
           ))}

@@ -1,6 +1,7 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { useState, useEffect } from 'react';
 import { ADMIN_ADDRESS } from '../contracts/addresses';
+import { bscTestnet } from 'wagmi/chains';
 
 export const useWeb3 = () => {
   const { address, isConnected } = useAccount();
@@ -37,7 +38,8 @@ export const useWeb3 = () => {
       }
 
       if (connector) {
-        connect({ connector });
+        // Request connection on BNB Testnet (chainId 97)
+        connect({ connector, chainId: bscTestnet.id });
         setShowWalletModal(false);
       } else {
         throw new Error('Wallet connector not found');

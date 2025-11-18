@@ -1,0 +1,121 @@
+:root {
+  --bg: #0b1220;
+  --border: #1e293b;
+  --muted: #9aa6b2;
+  --item-height: 40px; /* used by code */
+  --shadow: 0 8px 20px rgba(3,7,18,0.6);
+}
+
+.wrapper {
+  position: relative;
+  display: inline-block;
+  width: 220px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.button {
+  width: 100%;
+  height: 44px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: #e6eef8;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.button:focus {
+  outline: 2px solid rgba(99,102,241,0.12);
+  outline-offset: 2px;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.value {
+  font-size: 14px;
+  color: #e6eef8;
+}
+
+.placeholder {
+  color: #9aa6b2;
+}
+
+.chev {
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.listRoot {
+  position: absolute;
+  left: 0;
+  min-width: 220px;
+  z-index: 60;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(11,18,32,0.98), rgba(8,12,22,0.98));
+}
+
+.openDown {
+  transform-origin: top center;
+}
+
+.openUp {
+  transform-origin: bottom center;
+}
+
+.listInner {
+  overflow-y: auto;
+  max-height: calc(var(--item-height) * 5);
+  width: 100%;
+  padding: 4px 4px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.item {
+  height: var(--item-height);
+  line-height: var(--item-height);
+  padding: 0 12px;
+  color: #e6eef8;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.item:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.highlighted {
+  background: rgba(255,255,255,0.04);
+}
+
+.selected {
+  color: #cfe7ff;
+}
+
+/* subtle divider for large lists */
+.item + .item {
+  margin-top: 2px;
+}
+
+/* ensure scrollbar has soft color */
+.listInner::-webkit-scrollbar {
+  width: 8px;
+}
+.listInner::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+}
+.listInner::-webkit-scrollbar-track {
+  background: transparent;
+}
