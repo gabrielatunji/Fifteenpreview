@@ -15,7 +15,9 @@ db.serialize(() => {
       image TEXT,
       matchStartTime INTEGER,
       fromBlock INTEGER,
-      createdAt INTEGER
+      createdAt INTEGER,
+      marketTerms TEXT,
+      leagueName TEXT
     )`
   );
 });

@@ -9,13 +9,13 @@ app.use(bodyParser.json());
 
 // Create or update a market record
 app.post('/api/markets', (req, res) => {
-  const { id, address, team1, team2, image, matchStartTime, fromBlock } = req.body;
+  const { id, address, team1, team2, image, matchStartTime, fromBlock, marketTerms, leagueName } = req.body;
   if (!id || !team1 || !team2) {
     return res.status(400).json({ error: 'id, team1 and team2 are required' });
   }
   const now = Date.now();
-  const stmt = db.prepare(`INSERT OR REPLACE INTO markets (id,address,team1,team2,image,matchStartTime,fromBlock,createdAt) VALUES (?,?,?,?,?,?,?,?)`);
-  stmt.run(id, address || null, team1, team2, image || null, matchStartTime || null, fromBlock || null, now, function (err) {
+  const stmt = db.prepare(`INSERT OR REPLACE INTO markets (id,address,team1,team2,image,matchStartTime,fromBlock,createdAt,marketTerms,leagueName) VALUES (?,?,?,?,?,?,?,?,?,?)`);
+  stmt.run(id, address || null, team1, team2, image || null, matchStartTime || null, fromBlock || null, now, marketTerms || null, leagueName || null, function (err) {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ success: true });
   });
@@ -49,5 +49,5 @@ app.get('/api/markets', (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));
+const PORT = 4000;
+app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
