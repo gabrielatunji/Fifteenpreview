@@ -21,7 +21,7 @@ export async function findMarketAddressByMatch(
   try {
     const iface = new Interface(PREDICTION_MARKET_FACTORY_ABI as any);
     const eventFragment = iface.getEvent('MarketCreated');
-    const topic0 = iface.getEventTopic(eventFragment);
+    const topic0 = (iface as any).getEventTopic(eventFragment);
 
     // Use viem publicClient.getLogs to fetch logs. Use provided fromBlock when available.
     const fb = fromBlock !== undefined ? BigInt(fromBlock) : 0n;
@@ -30,7 +30,7 @@ export async function findMarketAddressByMatch(
       fromBlock: fb,
       toBlock: 'latest',
       topics: [topic0],
-    });
+    } as any);
 
     for (const l of logs) {
       try {

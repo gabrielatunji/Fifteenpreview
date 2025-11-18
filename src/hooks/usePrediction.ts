@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import type { BetData } from '../components/markets/PredictionForm';
+
+// Local BetData shape used by the prediction form/hook.
+type BetData = {
+  eventType: number;
+  epochIndex: number;
+  outcome: number;
+  amount: string; // in ETH (e.g. "0.01")
+};
 import { EPOCHAL_MATCH_MARKET_ABI } from '../contracts/abi';
 import { parseEther } from 'viem';
 

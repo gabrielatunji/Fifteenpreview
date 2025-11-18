@@ -72,16 +72,7 @@ async function fetchOnChainEpochResults(
   return { epochResults: results };
 }
 
-// Minimal ERC-721 ABI (tokenURI)
-const ERC721_MIN_ABI = [
-  {
-    inputs: [{ internalType: 'uint256', name: '_tokenId', type: 'uint256' }],
-    name: 'tokenURI',
-    outputs: [{ internalType: 'string', name: '', type: 'string' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-];
+// (removed unused ERC721_MIN_ABI)
 
 function pad(n: number) { return String(n).padStart(2, '0'); }
 
@@ -109,10 +100,10 @@ interface Market {
 
 interface HomePageProps {
   onMarketClick: (market: Market) => void;
-  onCreateMarket: () => void; 
+  onCreateMarket?: () => void;
 }
 
-export function HomePage({ onMarketClick, onCreateMarket }: HomePageProps) {
+export function HomePage({ onMarketClick }: HomePageProps) {
   const { toast } = useToast();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
