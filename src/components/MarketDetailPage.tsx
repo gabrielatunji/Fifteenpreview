@@ -9,7 +9,7 @@ import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { usePublicClient, useWalletClient } from 'wagmi';
 import epochalAbi from '../contracts/abis/EpochalMatchMarkets.json';
-import { ethers } from 'ethers';
+import { Interface, formatEther, parseEther } from 'ethers';
 import { findMarketAddressByMatch } from "../utils/onchain";
 import footballPng from "../assets/football.png";
 
@@ -66,6 +66,10 @@ export function MarketDetailPage({
   const publicClient = usePublicClient();
   const { data: walletClient } = useWalletClient();
 
+  const [poolTotalWei, setPoolTotalWei] = useState<bigint | null>(null);
+  const [outcome0Wei, setOutcome0Wei] = useState<bigint | null>(null);
+  const [outcome1Wei, setOutcome1Wei] = useState<bigint | null>(null);
+
   // If a proper contract address wasn't passed in `market.id`, try to find it on-chain
   // by matching the match details and start time. This allows the MarketDetail page
   // to recover the CA after reloads by scanning the factory events.
@@ -113,6 +117,148 @@ export function MarketDetailPage({
     return () => { mounted = false; };
   }, [contractAddress, market.team1, market.team2, market.matchStartTime, publicClient]);
 
+  // Fetch epoch pool details (total/outcome stakes) from the market contract
+  useEffect(() => {
+    let mounted = true;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    const fetchPool = async () => {
+      if (!contractAddress) return;
+      if (!currentEpoch || currentEpoch === null) return;
+      if (!publicClient) return;
+
+      try {
+        const eventType = selectedFilter === 'goal' ? 0 : 1;
+        const res: any = await publicClient.readContract({
+          address: contractAddress as `0x${string}`,
+          abi: epochalAbi as any,
+          functionName: 'getEpochPoolDetails',
+          args: [BigInt(eventType), BigInt(Number(currentEpoch))],
+        });
+
+        const totalStake: bigint = res?.[0] ?? res?.totalStake ?? 0n;
+        const out0: bigint = res?.[1] ?? res?.outcome0Stake ?? 0n;
+        const out1: bigint = res?.[2] ?? res?.outcome1Stake ?? 0n;
+
+        if (!mounted) return;
+        setPoolTotalWei(totalStake ?? 0n);
+        setOutcome0Wei(out0 ?? 0n);
+        setOutcome1Wei(out1 ?? 0n);
+      } catch (err) {
+        console.debug('failed reading epoch pool details', err);
+        if (mounted) {
+          setPoolTotalWei(0n);
+          setOutcome0Wei(0n);
+          setOutcome1Wei(0n);
+        }
+      }
+    };
+
+    // initial fetch
+    fetchPool();
+    // poll every 8 seconds for live updates while component is mounted
+    intervalId = setInterval(fetchPool, 8000);
+
+    return () => {
+      mounted = false;
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [contractAddress, currentEpoch, selectedFilter, publicClient]);
+
+  // Listen for BetPlaced / EpochResolved events to update pool totals incrementally
+  useEffect(() => {
+    if (!contractAddress || !publicClient) return;
+
+    let mounted = true;
+    let pollInterval: ReturnType<typeof setInterval> | null = null;
+    let lastCheckedBlock: number | null = null;
+    const iface = new Interface(epochalAbi as any);
+
+    const pollLogs = async () => {
+      try {
+        const latest = await (publicClient as any).getBlockNumber();
+        if (lastCheckedBlock === null) {
+          lastCheckedBlock = latest;
+          return;
+        }
+
+        if (latest <= lastCheckedBlock) return;
+
+        const betPlacedTopic = (iface as any).getEventTopic('BetPlaced');
+        const epochResolvedTopic = (iface as any).getEventTopic('EpochResolved');
+
+        const logs: any[] = await (publicClient as any).getLogs({
+          address: contractAddress as `0x${string}`,
+          fromBlock: lastCheckedBlock + 1,
+          toBlock: latest,
+          topics: [ [betPlacedTopic, epochResolvedTopic] ],
+        });
+
+        // process logs
+        for (const l of logs) {
+          try {
+            // ethers expects { topics, data }
+            const parsed = iface.parseLog({ topics: l.topics, data: l.data });
+            if (!parsed || !mounted) continue;
+
+            if (parsed.name === 'BetPlaced') {
+              // args: bettor, eventType, epochIndex, outcome, stakeAmount, tokenId
+              const eventType = Number(parsed.args.eventType?.toString?.() ?? parsed.args[1]?.toString?.());
+              const epochIndex = Number(parsed.args.epochIndex?.toString?.() ?? parsed.args[2]?.toString?.());
+              const outcome = Number(parsed.args.outcome?.toString?.() ?? parsed.args[3]?.toString?.());
+              const stakeAmount = BigInt(parsed.args.stakeAmount?.toString?.() ?? parsed.args[4]?.toString?.() ?? '0');
+
+              // only apply to our visible epoch + filter
+              if (epochIndex === Number(currentEpoch) && eventType === (selectedFilter === 'goal' ? 0 : 1)) {
+                setPoolTotalWei((prev) => (prev ?? 0n) + stakeAmount);
+                if (outcome === 0) setOutcome0Wei((prev) => (prev ?? 0n) + stakeAmount);
+                if (outcome === 1) setOutcome1Wei((prev) => (prev ?? 0n) + stakeAmount);
+              }
+            } else if (parsed.name === 'EpochResolved') {
+              // When epoch resolves, re-fetch fresh pool details to reflect final state
+              // (we rely on the existing fetchPool interval to pick this up, but do an immediate read)
+              if (mounted) {
+                try {
+                  const eventType = selectedFilter === 'goal' ? 0 : 1;
+                  const res: any = await (publicClient as any).readContract({
+                    address: contractAddress as `0x${string}`,
+                    abi: epochalAbi as any,
+                    functionName: 'getEpochPoolDetails',
+                    args: [BigInt(eventType), BigInt(Number(currentEpoch))],
+                  });
+                  const totalStake: bigint = res?.[0] ?? res?.totalStake ?? 0n;
+                  const out0: bigint = res?.[1] ?? res?.outcome0Stake ?? 0n;
+                  const out1: bigint = res?.[2] ?? res?.outcome1Stake ?? 0n;
+                  setPoolTotalWei(totalStake ?? 0n);
+                  setOutcome0Wei(out0 ?? 0n);
+                  setOutcome1Wei(out1 ?? 0n);
+                } catch (e) {
+                  console.debug('failed refreshing pool on EpochResolved', e);
+                }
+              }
+            }
+          } catch (e) {
+            console.debug('failed to parse log', e, l);
+          }
+        }
+
+        lastCheckedBlock = latest;
+      } catch (e) {
+        console.debug('log poll error', e);
+      }
+    };
+
+    // start polling logs every 4s
+    pollInterval = setInterval(pollLogs, 4000);
+    // run once immediately
+    pollLogs();
+
+    return () => {
+      mounted = false;
+      if (pollInterval) clearInterval(pollInterval);
+    };
+  }, [contractAddress, publicClient, currentEpoch, selectedFilter]);
+
   const placePrediction = async () => {
     if (!contractAddress) {
       toast({ type: 'error', description: 'Contract address not available' });
@@ -152,8 +298,8 @@ export function MarketDetailPage({
     // parse stake to wei
     let value: bigint;
     try {
-      // ethers v6 exports parseEther directly and it returns a bigint
-      value = ethers.parseEther(stakeEth);
+      // parseEther returns a bigint in ethers v6
+      value = parseEther(stakeEth);
     } catch (e) {
       toast({ type: 'error', description: 'Invalid stake amount' });
       return;
@@ -300,7 +446,18 @@ export function MarketDetailPage({
                 <h3 className="text-sm text-gray-400 mb-4">
                   Pool Volume
                 </h3>
-                <PredictionChart volume="$285.42k" />
+                <PredictionChart
+                  volume={
+                    // show 0.00 when null so new pools start at zero
+                    poolTotalWei !== null
+                      ? `${Number(formatEther(poolTotalWei)).toFixed(4)} tBNB`
+                      : '0.0000 tBNB'
+                  }
+                />
+                <div className="mt-3 text-xs text-gray-400 flex gap-4">
+                  <div>Team A: {outcome0Wei !== null ? `${Number(formatEther(outcome0Wei)).toFixed(4)} tBNB` : '0.0000 tBNB'}</div>
+                  <div>Team B: {outcome1Wei !== null ? `${Number(formatEther(outcome1Wei)).toFixed(4)} tBNB` : '0.0000 tBNB'}</div>
+                </div>
               </div>
 
               {/* Epoch Timeline */}

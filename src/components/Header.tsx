@@ -3,6 +3,7 @@ import { Input } from "./ui/input";
 import { Search } from "lucide-react";
 import logo from "../assets/15-markets.png";
 import { useWeb3 } from "../hooks/useWeb3";
+import { useToast } from "./ui/toast";
 
 interface HeaderProps {
   onCreateMarket?: () => void;
@@ -10,6 +11,7 @@ interface HeaderProps {
 
 export function Header({ onCreateMarket }: HeaderProps) {
   const { address, isConnected, connectWallet, disconnectWallet } = useWeb3();
+  const { toast } = useToast();
 
   const shortAddress = (addr?: string | null) => {
     if (!addr) return '';
@@ -37,7 +39,16 @@ export function Header({ onCreateMarket }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button onClick={onCreateMarket} className="bg-[#3D6734] hover:bg-[#2d4f27]">
+          <Button
+            onClick={() => {
+              if (!isConnected) {
+                toast({ type: 'error', description: 'Please connect your wallet to create a market' });
+                return;
+              }
+              if (onCreateMarket) onCreateMarket();
+            }}
+            className="bg-[#3D6734] hover:bg-[#2d4f27]"
+          >
             CREATE MARKET
           </Button>
           <Button
