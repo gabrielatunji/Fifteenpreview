@@ -11,6 +11,7 @@ import { usePublicClient, useWalletClient } from 'wagmi';
 import epochalAbi from '../contracts/abis/EpochalMatchMarkets.json';
 import { ethers } from 'ethers';
 import { findMarketAddressByMatch } from "../utils/onchain";
+import footballPng from "../assets/football.png";
 
 interface Market {
   id: string;
@@ -249,7 +250,7 @@ export function MarketDetailPage({
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <ImageWithFallback
-                    src={market.image}
+                    src={footballPng}
                     alt={`${market.team1} vs ${market.team2}`}
                     className="size-12 rounded object-cover"
                   />
@@ -417,7 +418,7 @@ export function MarketDetailPage({
                   {selectedGoalTeam && (
                     <div className="pt-4 space-y-3">
                       <div className="flex flex-col gap-2">
-                        <label className="text-sm text-gray-400">Your Stake (ETH)</label>
+                        <label className="text-sm text-gray-400">Your Stake (tBNB)</label>
                         <input
                           type="number"
                           min="0"
@@ -477,7 +478,7 @@ export function MarketDetailPage({
                   {selectedCardsOption && (
                     <div className="pt-4 space-y-3">
                       <div className="flex flex-col gap-2">
-                        <label className="text-sm text-gray-400">Your Stake (ETH)</label>
+                        <label className="text-sm text-gray-400">Your Stake (tBNB)</label>
                         <input
                           type="number"
                           min="0"

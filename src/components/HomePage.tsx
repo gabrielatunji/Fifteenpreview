@@ -9,6 +9,7 @@ import { useToast } from "./ui/toast";
 import { useWalletClient, usePublicClient, useAccount } from "wagmi";
 import EpochalMatchMarketsABI from "../contracts/abis/EpochalMatchMarkets.json";
 import BetReceiptNFTABI from "../contracts/abis/BetReceiptNFT.json";
+import footballPng from "../assets/football.png";
 
 // Helper: query on-chain epoch resolution for a market contract
 async function fetchOnChainEpochResults(
@@ -274,295 +275,49 @@ export function HomePage({ onMarketClick }: HomePageProps) {
       id: "1",
       team1: "Arsenal",
       team2: "Manchester United",
-      image: "./src/assets/football.png",
+      image: footballPng,
       status: "live",
       matchStartTime: nowSec - 10 * 60 // started 10 minutes ago
     },
-    {
-      id: "2",
-      team1: "Liverpool",
-      team2: "Chelsea",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "3",
-      team1: "Manchester City",
-      team2: "Tottenham",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "4",
-      team1: "Newcastle",
-      team2: "Brighton",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "5",
-      team1: "Aston Villa",
-      team2: "West Ham",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "6",
-      team1: "Everton",
-      team2: "Fulham",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "7",
-      team1: "Wolves",
-      team2: "Brentford",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "8",
-      team1: "Crystal Palace",
-      team2: "Bournemouth",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "9",
-      team1: "Nottingham Forest",
-      team2: "Luton Town",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "10",
-      team1: "Sheffield United",
-      team2: "Burnley",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "11",
-      team1: "Real Madrid",
-      team2: "Atletico Madrid",
-      image: "./src/assets/football.png",
-      status: "live"
-    },
-    {
-      id: "12",
-      team1: "Barcelona",
-      team2: "Sevilla",
-      image: "./src/assets/football.png",
-      status: "live"
-    }
+    { id: "2", team1: "Liverpool", team2: "Chelsea", image: footballPng, status: "live" },
+    { id: "3", team1: "Manchester City", team2: "Tottenham", image: footballPng, status: "live" },
+    { id: "4", team1: "Newcastle", team2: "Brighton", image: footballPng, status: "live" },
+    { id: "5", team1: "Aston Villa", team2: "West Ham", image: footballPng, status: "live" },
+    { id: "6", team1: "Everton", team2: "Fulham", image: footballPng, status: "live" },
+    { id: "7", team1: "Wolves", team2: "Brentford", image: footballPng, status: "live" },
+    { id: "8", team1: "Crystal Palace", team2: "Bournemouth", image: footballPng, status: "live" },
+    { id: "9", team1: "Nottingham Forest", team2: "Luton Town", image: footballPng, status: "live" },
+    { id: "10", team1: "Sheffield United", team2: "Burnley", image: footballPng, status: "live" },
+    { id: "11", team1: "Real Madrid", team2: "Atletico Madrid", image: footballPng, status: "live" },
+    { id: "12", team1: "Barcelona", team2: "Sevilla", image: footballPng, status: "live" }
   ];
 
   // mock upcoming matches placed well into the future so polled/real markets appear first
   const upcomingBase = nowSec + 60 * 60 * 24 * 7; // one week from now
   const upcomingMarkets: Market[] = [
-    {
-      id: "13",
-      team1: "Bayern Munich",
-      team2: "Borussia Dortmund",
-      image: "./src/assets/football.png",
-      status: "upcoming",
-      matchStartTime: upcomingBase + 0 * 86400
-    },
-    {
-      id: "14",
-      team1: "PSG",
-      team2: "Marseille",
-      image: "./src/assets/football.png",
-      status: "upcoming",
-      matchStartTime: upcomingBase + 1 * 86400
-    },
-    {
-      id: "15",
-      team1: "Inter Milan",
-      team2: "AC Milan",
-      image: "./src/assets/football.png",
-      status: "upcoming",
-      matchStartTime: upcomingBase + 2 * 86400
-    },
-    {
-      id: "16",
-      team1: "Juventus",
-      team2: "Napoli",
-      image: "./src/assets/football.png",
-      status: "upcoming",
-      matchStartTime: upcomingBase + 3 * 86400
-    },
-    {
-      id: "17",
-      team1: "Ajax",
-      team2: "Feyenoord",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "18",
-      team1: "Benfica",
-      team2: "Porto",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "19",
-      team1: "Celtic",
-      team2: "Rangers",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "20",
-      team1: "Lyon",
-      team2: "Monaco",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "21",
-      team1: "Galatasaray",
-      team2: "Fenerbahce",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "22",
-      team1: "Sporting CP",
-      team2: "Braga",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "23",
-      team1: "Lazio",
-      team2: "Roma",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    },
-    {
-      id: "24",
-      team1: "Atletico Madrid",
-      team2: "Real Sociedad",
-      image: "./src/assets/football.png",
-      status: "upcoming"
-    }
+    { id: "13", team1: "Bayern Munich", team2: "Borussia Dortmund", image: footballPng, status: "upcoming", matchStartTime: upcomingBase + 0 * 86400 },
+    { id: "14", team1: "PSG", team2: "Marseille", image: footballPng, status: "upcoming", matchStartTime: upcomingBase + 1 * 86400 },
+    { id: "15", team1: "Inter Milan", team2: "AC Milan", image: footballPng, status: "upcoming", matchStartTime: upcomingBase + 2 * 86400 },
+    { id: "16", team1: "Juventus", team2: "Napoli", image: footballPng, status: "upcoming", matchStartTime: upcomingBase + 3 * 86400 },
+    { id: "17", team1: "Ajax", team2: "Feyenoord", image: footballPng, status: "upcoming" },
+    { id: "18", team1: "Benfica", team2: "Porto", image: footballPng, status: "upcoming" },
+    { id: "19", team1: "Celtic", team2: "Rangers", image: footballPng, status: "upcoming" },
+    { id: "20", team1: "Lyon", team2: "Monaco", image: footballPng, status: "upcoming" },
+    { id: "21", team1: "Galatasaray", team2: "Fenerbahce", image: footballPng, status: "upcoming" },
+    { id: "22", team1: "Sporting CP", team2: "Braga", image: footballPng, status: "upcoming" },
+    { id: "23", team1: "Lazio", team2: "Roma", image: footballPng, status: "upcoming" },
+    { id: "24", team1: "Atletico Madrid", team2: "Real Sociedad", image: footballPng, status: "upcoming" }
   ];
 
   const resolvedMarkets: Market[] = [
-    {
-      id: "25",
-      team1: "Real Madrid",
-      team2: "Barcelona",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Real Madrid", cards: "No cards" },
-        { epoch: 2, goalTeam: "Barcelona", cards: "Yes cards" },
-        { epoch: 3, goalTeam: "Real Madrid", cards: "No cards" },
-        { epoch: 5, goalTeam: "Barcelona", cards: "Yes cards" },
-        { epoch: 6, goalTeam: "Real Madrid", cards: "No cards" }
-      ]
-    },
-    {
-      id: "26",
-      team1: "Bayern Munich",
-      team2: "Dortmund",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Bayern Munich", cards: "Yes cards" },
-        { epoch: 2, goalTeam: "Dortmund", cards: "No cards" },
-        { epoch: 3, goalTeam: "Bayern Munich", cards: "Yes cards" },
-        { epoch: 5, goalTeam: "Dortmund", cards: "No cards" },
-        { epoch: 6, goalTeam: "Bayern Munich", cards: "Yes cards" }
-      ]
-    },
-    {
-      id: "27",
-      team1: "PSG",
-      team2: "Marseille",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "PSG", cards: "No cards" },
-        { epoch: 2, goalTeam: "PSG", cards: "Yes cards" },
-        { epoch: 3, goalTeam: "Marseille", cards: "No cards" },
-        { epoch: 5, goalTeam: "PSG", cards: "Yes cards" },
-        { epoch: 6, goalTeam: "Marseille", cards: "No cards" }
-      ]
-    },
-    {
-      id: "28",
-      team1: "Inter Milan",
-      team2: "AC Milan",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Inter Milan", cards: "Yes cards" },
-        { epoch: 2, goalTeam: "Inter Milan", cards: "No cards" },
-        { epoch: 3, goalTeam: "AC Milan", cards: "Yes cards" },
-        { epoch: 5, goalTeam: "Inter Milan", cards: "No cards" },
-        { epoch: 6, goalTeam: "AC Milan", cards: "Yes cards" }
-      ]
-    },
-    {
-      id: "29",
-      team1: "Liverpool",
-      team2: "Manchester City",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Liverpool", cards: "No cards" },
-        { epoch: 2, goalTeam: "Manchester City", cards: "Yes cards" },
-        { epoch: 3, goalTeam: "Liverpool", cards: "No cards" },
-        { epoch: 5, goalTeam: "Manchester City", cards: "No cards" },
-        { epoch: 6, goalTeam: "Liverpool", cards: "Yes cards" }
-      ]
-    },
-    {
-      id: "30",
-      team1: "Juventus",
-      team2: "Napoli",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Juventus", cards: "Yes cards" },
-        { epoch: 2, goalTeam: "Napoli", cards: "No cards" },
-        { epoch: 3, goalTeam: "Juventus", cards: "Yes cards" },
-        { epoch: 5, goalTeam: "Napoli", cards: "Yes cards" },
-        { epoch: 6, goalTeam: "Juventus", cards: "No cards" }
-      ]
-    },
-    {
-      id: "31",
-      team1: "Arsenal",
-      team2: "Chelsea",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Arsenal", cards: "No cards" },
-        { epoch: 2, goalTeam: "Chelsea", cards: "Yes cards" },
-        { epoch: 3, goalTeam: "Arsenal", cards: "No cards" },
-        { epoch: 5, goalTeam: "Arsenal", cards: "Yes cards" },
-        { epoch: 6, goalTeam: "Chelsea", cards: "No cards" }
-      ]
-    },
-    {
-      id: "32",
-      team1: "Atletico Madrid",
-      team2: "Valencia",
-      image: "./src/assets/football.png",
-      status: "resolved",
-      epochResults: [
-        { epoch: 1, goalTeam: "Atletico Madrid", cards: "Yes cards" },
-        { epoch: 2, goalTeam: "Valencia", cards: "No cards" },
-        { epoch: 3, goalTeam: "Atletico Madrid", cards: "Yes cards" },
-        { epoch: 5, goalTeam: "Valencia", cards: "No cards" },
-        { epoch: 6, goalTeam: "Atletico Madrid", cards: "Yes cards" }
-      ]
-    }
+    { id: "25", team1: "Real Madrid", team2: "Barcelona", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Real Madrid", cards: "No cards" }, { epoch: 2, goalTeam: "Barcelona", cards: "Yes cards" }, { epoch: 3, goalTeam: "Real Madrid", cards: "No cards" }, { epoch: 5, goalTeam: "Barcelona", cards: "Yes cards" }, { epoch: 6, goalTeam: "Real Madrid", cards: "No cards" } ] },
+    { id: "26", team1: "Bayern Munich", team2: "Dortmund", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Bayern Munich", cards: "Yes cards" }, { epoch: 2, goalTeam: "Dortmund", cards: "No cards" }, { epoch: 3, goalTeam: "Bayern Munich", cards: "Yes cards" }, { epoch: 5, goalTeam: "Dortmund", cards: "No cards" }, { epoch: 6, goalTeam: "Bayern Munich", cards: "Yes cards" } ] },
+    { id: "27", team1: "PSG", team2: "Marseille", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "PSG", cards: "No cards" }, { epoch: 2, goalTeam: "PSG", cards: "Yes cards" }, { epoch: 3, goalTeam: "Marseille", cards: "No cards" }, { epoch: 5, goalTeam: "PSG", cards: "Yes cards" }, { epoch: 6, goalTeam: "Marseille", cards: "No cards" } ] },
+    { id: "28", team1: "Inter Milan", team2: "AC Milan", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Inter Milan", cards: "Yes cards" }, { epoch: 2, goalTeam: "Inter Milan", cards: "No cards" }, { epoch: 3, goalTeam: "AC Milan", cards: "Yes cards" }, { epoch: 5, goalTeam: "Inter Milan", cards: "No cards" }, { epoch: 6, goalTeam: "AC Milan", cards: "Yes cards" } ] },
+    { id: "29", team1: "Liverpool", team2: "Manchester City", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Liverpool", cards: "No cards" }, { epoch: 2, goalTeam: "Manchester City", cards: "Yes cards" }, { epoch: 3, goalTeam: "Liverpool", cards: "No cards" }, { epoch: 5, goalTeam: "Manchester City", cards: "No cards" }, { epoch: 6, goalTeam: "Liverpool", cards: "Yes cards" } ] },
+    { id: "30", team1: "Juventus", team2: "Napoli", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Juventus", cards: "Yes cards" }, { epoch: 2, goalTeam: "Napoli", cards: "No cards" }, { epoch: 3, goalTeam: "Juventus", cards: "Yes cards" }, { epoch: 5, goalTeam: "Napoli", cards: "Yes cards" }, { epoch: 6, goalTeam: "Juventus", cards: "No cards" } ] },
+    { id: "31", team1: "Arsenal", team2: "Chelsea", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Arsenal", cards: "No cards" }, { epoch: 2, goalTeam: "Chelsea", cards: "Yes cards" }, { epoch: 3, goalTeam: "Arsenal", cards: "No cards" }, { epoch: 5, goalTeam: "Arsenal", cards: "Yes cards" }, { epoch: 6, goalTeam: "Chelsea", cards: "No cards" } ] },
+    { id: "32", team1: "Atletico Madrid", team2: "Valencia", image: footballPng, status: "resolved", epochResults: [ { epoch: 1, goalTeam: "Atletico Madrid", cards: "Yes cards" }, { epoch: 2, goalTeam: "Valencia", cards: "No cards" }, { epoch: 3, goalTeam: "Atletico Madrid", cards: "Yes cards" }, { epoch: 5, goalTeam: "Valencia", cards: "No cards" }, { epoch: 6, goalTeam: "Atletico Madrid", cards: "Yes cards" } ] }
   ];
 
   const [markets, setMarkets] = useState<Market[]>(() => {
@@ -597,7 +352,7 @@ export function HomePage({ onMarketClick }: HomePageProps) {
               id,
               team1: r.team1 || r.teamA || 'Team A',
               team2: r.team2 || r.teamB || 'Team B',
-              image: r.image || './src/assets/football.png',
+              image: r.image || footballPng,
               matchStartTime: r.matchStartTime ? Number(r.matchStartTime) : undefined,
               page: undefined,
             };
